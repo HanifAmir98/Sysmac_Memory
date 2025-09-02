@@ -1,0 +1,882 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sysmac Memory - Data Types Reference</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            font-weight: 300;
+        }
+
+        .header p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+
+        .content {
+            padding: 40px;
+        }
+
+        .table-container {
+            overflow-x: auto;
+            margin: 20px 0;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+        }
+
+        th {
+            background: linear-gradient(135deg, #3498db 0%, #2980b9 100%);
+            color: white;
+            padding: 18px 15px;
+            text-align: center;
+            font-weight: 600;
+            font-size: 1.1rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            border: 1px solid #2980b9;
+        }
+
+        td {
+            padding: 15px;
+            text-align: center;
+            border: 1px solid #bdc3c7;
+            font-size: 1rem;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f8f9fa;
+        }
+
+        /* Section 1: Light Blue Background */
+        .section-1 {
+            background-color: #e3f2fd !important;
+        }
+
+        /* Section 2: Light Orange Background */
+        .section-2 {
+            background-color: #fff3e0 !important;
+        }
+
+        /* Section 3: Light Green Background */
+        .section-3 {
+            background-color: #e8f5e8 !important;
+        }
+
+        .data-type {
+            font-weight: 600;
+            color: #2c3e50;
+            font-family: 'Courier New', monospace;
+        }
+
+        .bit-size, .byte-size, .word-size {
+            font-weight: 500;
+            color: #34495e;
+        }
+
+        .dash {
+            color: #95a5a6;
+            font-style: italic;
+        }
+
+        .section-divider {
+            height: 3px;
+            background: linear-gradient(90deg, transparent, #bdc3c7, transparent);
+            margin: 10px 0;
+        }
+
+        .legend {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+            border-left: 4px solid #3498db;
+        }
+
+        .legend h3 {
+            color: #2c3e50;
+            margin-bottom: 15px;
+            font-size: 1.2rem;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            margin: 8px 0;
+        }
+
+        .legend-color {
+            width: 20px;
+            height: 20px;
+            border-radius: 4px;
+            margin-right: 15px;
+        }
+
+        .legend-color.blue { background-color: #e3f2fd; }
+        .legend-color.orange { background-color: #fff3e0; }
+        .legend-color.green { background-color: #e8f5e8; }
+
+        .footer {
+            background: #ecf0f1;
+            padding: 20px;
+            text-align: center;
+            color: #7f8c8d;
+            font-size: 0.9rem;
+        }
+
+        .collapsible {
+            margin-top: 20px;
+            border: 1px solid #bdc3c7;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .collapsible-header {
+            background: linear-gradient(135deg, #3498db 0%, #2980b9 100%);
+            color: white;
+            padding: 15px 20px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: 600;
+            font-size: 1.1rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .collapsible-header h3 {
+            margin-bottom: 0;
+        }
+
+        .collapsible-content {
+            padding: 20px;
+            display: none;
+            background-color: #f8f9fa;
+        }
+
+        .collapsible-content.active {
+            display: block;
+        }
+
+        .toggle-icon {
+            transition: transform 0.3s ease;
+        }
+
+                 .collapsible-header.active .toggle-icon {
+             transform: rotate(180deg);
+         }
+        
+        /* Enhanced Dropdown Styling */
+        select {
+            appearance: none;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%233498db' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6,9 12,15 18,9'%3e%3c/polyline%3e%3c/svg%3e");
+            background-repeat: no-repeat;
+            background-position: right 12px center;
+            background-size: 16px;
+            padding-right: 40px !important;
+        }
+        
+        select:hover {
+            border-color: #2980b9;
+            box-shadow: 0 4px 12px rgba(52, 152, 219, 0.3);
+            transform: translateY(-1px);
+        }
+        
+        select:focus {
+            border-color: #2980b9;
+            box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.2);
+            transform: translateY(0);
+        }
+        
+        select option {
+            background-color: #fff;
+            color: #2c3e50;
+            padding: 8px 12px;
+            font-weight: 500;
+        }
+        
+        select option:hover {
+            background-color: #e3f2fd;
+        }
+        
+        /* Enhanced Input Field Styling */
+        input[type="number"] {
+            appearance: none;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+        }
+        
+        input[type="number"]:hover {
+            border-color: #2980b9;
+            box-shadow: 0 4px 12px rgba(52, 152, 219, 0.3);
+            transform: translateY(-1px);
+        }
+        
+        input[type="number"]:focus {
+            border-color: #2980b9;
+            box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.2);
+            transform: translateY(0);
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                margin: 10px;
+                border-radius: 10px;
+            }
+            
+            .header {
+                padding: 20px;
+            }
+            
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .content {
+                padding: 20px;
+            }
+            
+            th, td {
+                padding: 12px 8px;
+                font-size: 0.9rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Sysmac Memory</h1>
+            <p>Data Types Reference Table</p>
+        </div>
+        
+        <div class="content">
+            <div class="legend">
+                <h3>Table Legend</h3>
+                <div class="legend-item">
+                    <div class="legend-color blue"></div>
+                    <span>Basic Data Types (BYTE, WORD, DWORD, LWORD)</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-color orange"></div>
+                    <span>Integer Data Types (SINT, INT, DINT, LINT, USINT, UINT, UDINT, ULINT)</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-color green"></div>
+                    <span>Floating Point Data Types (REAL, LREAL)</span>
+                </div>
+            </div>
+
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Data Type</th>
+                            <th>Total Bit</th>
+                            <th>Total Byte</th>
+                            <th>Total Word</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Section 1: Basic Data Types -->
+                        <tr class="section-1">
+                            <td class="data-type">BYTE</td>
+                            <td class="bit-size">8</td>
+                            <td class="byte-size">1</td>
+                            <td class="dash">-</td>
+                        </tr>
+                        <tr class="section-1">
+                            <td class="data-type">WORD</td>
+                            <td class="bit-size">16</td>
+                            <td class="byte-size">2</td>
+                            <td class="word-size">1</td>
+                        </tr>
+                        <tr class="section-1">
+                            <td class="data-type">DWORD</td>
+                            <td class="bit-size">32</td>
+                            <td class="byte-size">4</td>
+                            <td class="word-size">2</td>
+                        </tr>
+                        <tr class="section-1">
+                            <td class="data-type">LWORD</td>
+                            <td class="bit-size">64</td>
+                            <td class="byte-size">8</td>
+                            <td class="word-size">4</td>
+                        </tr>
+                        
+                        <!-- Section 2: Integer Data Types -->
+                        <tr class="section-2">
+                            <td class="data-type">SINT</td>
+                            <td class="bit-size">8</td>
+                            <td class="byte-size">1</td>
+                            <td class="dash">-</td>
+                        </tr>
+                        <tr class="section-2">
+                            <td class="data-type">INT</td>
+                            <td class="bit-size">16</td>
+                            <td class="byte-size">2</td>
+                            <td class="word-size">1</td>
+                        </tr>
+                        <tr class="section-2">
+                            <td class="data-type">DINT</td>
+                            <td class="bit-size">32</td>
+                            <td class="byte-size">4</td>
+                            <td class="word-size">2</td>
+                        </tr>
+                        <tr class="section-2">
+                            <td class="data-type">LINT</td>
+                            <td class="bit-size">64</td>
+                            <td class="byte-size">8</td>
+                            <td class="word-size">4</td>
+                        </tr>
+                        <tr class="section-2">
+                            <td class="data-type">USINT</td>
+                            <td class="bit-size">8</td>
+                            <td class="byte-size">1</td>
+                            <td class="dash">-</td>
+                        </tr>
+                        <tr class="section-2">
+                            <td class="data-type">UINT</td>
+                            <td class="bit-size">16</td>
+                            <td class="byte-size">2</td>
+                            <td class="word-size">1</td>
+                        </tr>
+                        <tr class="section-2">
+                            <td class="data-type">UDINT</td>
+                            <td class="bit-size">32</td>
+                            <td class="byte-size">4</td>
+                            <td class="word-size">2</td>
+                        </tr>
+                        <tr class="section-2">
+                            <td class="data-type">ULINT</td>
+                            <td class="bit-size">64</td>
+                            <td class="byte-size">8</td>
+                            <td class="word-size">4</td>
+                        </tr>
+                        
+                        <!-- Section 3: Floating Point Data Types -->
+                        <tr class="section-3">
+                            <td class="data-type">REAL</td>
+                            <td class="bit-size">32</td>
+                            <td class="byte-size">4</td>
+                            <td class="word-size">2</td>
+                        </tr>
+                        <tr class="section-3">
+                            <td class="data-type">LREAL</td>
+                            <td class="bit-size">64</td>
+                            <td class="byte-size">8</td>
+                            <td class="word-size">4</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            
+
+
+            <div class="legend">
+                <h3>Omron STRING Calculator</h3>
+                <p style="margin-bottom: 20px; color: #2c3e50; font-style: italic;">
+                    <strong>Formula:</strong> Omron STRING[n] = n + 1 bytes (extra byte stores string length)
+                </p>
+                
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>STRING[0..256]</th>
+                                <th>Total Bit</th>
+                                <th>Total Byte</th>
+                                <th>Total Word</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="section-1">
+                                <td class="data-type">
+                                                                         <input 
+                                         type="number" 
+                                         id="stringLength" 
+                                         min="0" 
+                                         max="256" 
+                                         value="20" 
+                                         style="
+                                             padding: 12px 16px;
+                                             border: 2px solid #3498db;
+                                             border-radius: 8px;
+                                             font-size: 16px;
+                                             width: 120px;
+                                             text-align: center;
+                                             background: linear-gradient(135deg, #fff3cd 0%, #ffeaa7 100%);
+                                             color: #856404;
+                                             font-weight: 600;
+                                             font-family: 'Courier New', monospace;
+                                             box-shadow: 0 2px 8px rgba(52, 152, 219, 0.2);
+                                             transition: all 0.3s ease;
+                                             outline: none;
+                                         "
+                                     >
+                                </td>
+                                <td class="bit-size" id="totalBits">168</td>
+                                <td class="byte-size" id="totalBytes">21</td>
+                                <td class="word-size" id="totalWords">11</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                
+
+                <div class="legend collapsible" style="margin-top: 20px;">
+                    <div class="collapsible-header" onclick="toggleSection('stringCalc')">
+                        <h4 style="margin-bottom: 0; color: #2c3e50;">Calculation Details <span class="toggle-icon">▼</span></h4>
+                    </div>
+                    <div class="collapsible-content" id="stringCalc-content">
+                        <div style="font-family: 'Courier New', monospace; font-size: 14px; line-height: 1.6;">
+                            • String Length: 20 characters<br>
+                            • Total Bytes: 20 + 1 = 21 bytes (extra byte for length)<br>
+                            • Total Bits: 21 × 8 = 168 bits<br>
+                            • Total Words: 21 ÷ 2 = 10.5 → 11 words (rounded up)
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="legend">
+                <h3>Array Memory Calculator</h3>
+                <p style="margin-bottom: 20px; color: #2c3e50; font-style: italic;">
+                    <strong>Formula:</strong> Memory Use = (Array Total × Data Type Bytes) ÷ 2 words
+                </p>
+                
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Array Total</th>
+                                <th>Data Type</th>
+                                <th>Total Byte</th>
+                                <th>Memory Use</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="section-1">
+                                <td class="data-type">
+                                                                         <input 
+                                         type="number" 
+                                         id="arrayTotal" 
+                                         min="1" 
+                                         max="10000" 
+                                         value="100" 
+                                         style="
+                                             padding: 12px 16px;
+                                             border: 2px solid #3498db;
+                                             border-radius: 8px;
+                                             font-size: 16px;
+                                             width: 120px;
+                                             text-align: center;
+                                             background: linear-gradient(135deg, #fff3cd 0%, #ffeaa7 100%);
+                                             color: #856404;
+                                             font-weight: 600;
+                                             font-family: 'Courier New', monospace;
+                                             box-shadow: 0 2px 8px rgba(52, 152, 219, 0.2);
+                                             transition: all 0.3s ease;
+                                             outline: none;
+                                         "
+                                     >
+                                </td>
+                                <td class="data-type">
+                                    <select 
+                                        id="dataTypeSelect" 
+                                        style="
+                                            padding: 12px 16px;
+                                            border: 2px solid #3498db;
+                                            border-radius: 8px;
+                                            font-size: 16px;
+                                            width: 150px;
+                                            text-align: center;
+                                            background: linear-gradient(135deg, #fff3cd 0%, #ffeaa7 100%);
+                                            color: #856404;
+                                            font-weight: 600;
+                                            font-family: 'Courier New', monospace;
+                                            cursor: pointer;
+                                            box-shadow: 0 2px 8px rgba(52, 152, 219, 0.2);
+                                            transition: all 0.3s ease;
+                                            outline: none;
+                                        "
+                                    >
+                                        <option value="1">BYTE</option>
+                                        <option value="2">WORD</option>
+                                        <option value="4">DWORD</option>
+                                        <option value="8">LWORD</option>
+                                        <option value="1">SINT</option>
+                                        <option value="2" selected>INT</option>
+                                        <option value="4">DINT</option>
+                                        <option value="8">LINT</option>
+                                        <option value="1">USINT</option>
+                                        <option value="2">UINT</option>
+                                        <option value="4">UDINT</option>
+                                        <option value="8">ULINT</option>
+                                        <option value="4">REAL</option>
+                                        <option value="8">LREAL</option>
+                                        <option value="string">STRING</option>
+                                    </select>
+                                </td>
+                                <td class="byte-size" id="totalBytes">200</td>
+                                <td class="word-size" id="memoryUse">100</td>
+                            </tr>
+                            
+                            <!-- String Length Input Row (hidden by default) -->
+                            <tr id="stringLengthRow" class="section-1" style="display: none;">
+                                <td colspan="2" class="data-type" style="text-align: center;">
+                                    <label for="stringLengthInput" style="margin-right: 10px; font-weight: 600;">String Length (0-256):</label>
+                                                                         <input 
+                                         type="number" 
+                                         id="stringLengthInput" 
+                                         min="0" 
+                                         max="256" 
+                                         value="20" 
+                                         style="
+                                             padding: 8px 12px;
+                                             border: 2px solid #3498db;
+                                             border-radius: 6px;
+                                             font-size: 14px;
+                                             width: 80px;
+                                             text-align: center;
+                                             background: linear-gradient(135deg, #fff3cd 0%, #ffeaa7 100%);
+                                             color: #856404;
+                                             font-weight: 600;
+                                             font-family: 'Courier New', monospace;
+                                             box-shadow: 0 2px 6px rgba(52, 152, 219, 0.2);
+                                             transition: all 0.3s ease;
+                                             outline: none;
+                                         "
+                                     >
+                                </td>
+                                <td class="byte-size" id="stringBytes">21</td>
+                                <td class="word-size" id="stringWords">11</td>
+                            </tr>
+                            
+                            <tr class="section-2">
+                                <td colspan="2" class="data-type" id="arrayDescription" style="text-align: left; padding-left: 20px;">ARRAY[0..99] OF INT</td>
+                                <td colspan="2" class="data-type" style="text-align: center; font-weight: 600;">Memory Use: 100 words</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                
+
+                <div class="legend collapsible" style="margin-top: 20px;">
+                    <div class="collapsible-header" onclick="toggleSection('arrayCalc')">
+                        <h4 style="margin-bottom: 0; color: #2c3e50;">Calculation Details <span class="toggle-icon">▼</span></h4>
+                    </div>
+                    <div class="collapsible-content" id="arrayCalc-content">
+                        <div id="arrayCalcDetails" style="font-family: 'Courier New', monospace; font-size: 14px; line-height: 1.6;">
+                            • Array Total: 100 elements<br>
+                            • Data Type: INT (2 bytes per element)<br>
+                            • Total Bytes: 100 × 2 = 200 bytes<br>
+                            • Memory Use: 200 ÷ 2 = 100 words
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="legend collapsible">
+                <div class="collapsible-header" onclick="toggleSection('notes')">
+                    <h3>Notes <span class="toggle-icon">▼</span></h3>
+                </div>
+                <div class="collapsible-content" id="notes-content">
+                    <ul style="margin-left: 20px; line-height: 1.6;">
+                        <li><strong>BYTE:</strong> 8-bit unsigned integer</li>
+                        <li><strong>WORD:</strong> 16-bit unsigned integer</li>
+                        <li><strong>DWORD:</strong> 32-bit unsigned integer (Double Word)</li>
+                        <li><strong>LWORD:</strong> 64-bit unsigned integer (Long Word)</li>
+                        <li><strong>SINT:</strong> 8-bit signed integer</li>
+                        <li><strong>INT:</strong> 16-bit signed integer</li>
+                        <li><strong>DINT:</strong> 32-bit signed integer (Double Integer)</li>
+                        <li><strong>LINT:</strong> 64-bit signed integer (Long Integer)</li>
+                        <li><strong>USINT:</strong> 8-bit unsigned integer</li>
+                        <li><strong>UINT:</strong> 16-bit unsigned integer</li>
+                        <li><strong>UDINT:</strong> 32-bit unsigned integer (Unsigned Double Integer)</li>
+                        <li><strong>ULINT:</strong> 64-bit unsigned integer (Unsigned Long Integer)</li>
+                        <li><strong>REAL:</strong> 32-bit floating point number</li>
+                        <li><strong>LREAL:</strong> 64-bit floating point number (Long Real)</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="legend collapsible">
+                <div class="collapsible-header" onclick="toggleSection('ranges')">
+                    <h3>Integer Data Type Ranges <span class="toggle-icon">▼</span></h3>
+                </div>
+                <div class="collapsible-content" id="ranges-content">
+                    <div class="table-container">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Data Type</th>
+                                    <th>Range</th>
+                                    <th>Approximate Range</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr class="section-2">
+                                    <td class="data-type">SINT</td>
+                                    <td>-128 to +127</td>
+                                    <td>≈ ±128</td>
+                                </tr>
+                                <tr class="section-2">
+                                    <td class="data-type">INT</td>
+                                    <td>-32,768 to +32,767</td>
+                                    <td>≈ ±32.5K</td>
+                                </tr>
+                                <tr class="section-2">
+                                    <td class="data-type">DINT</td>
+                                    <td>-2,147,483,648 to +2,147,483,647</td>
+                                    <td>≈ ±2.14B</td>
+                                </tr>
+                                <tr class="section-2">
+                                    <td class="data-type">LINT</td>
+                                    <td>-9,223,372,036,854,775,808 to +9,223,372,036,854,775,807</td>
+                                    <td>≈ ±9.22 quintillion (10^18)</td>
+                                </tr>
+                                <tr class="section-2">
+                                    <td class="data-type">USINT</td>
+                                    <td>0 to 255</td>
+                                    <td>≈ 256</td>
+                                </tr>
+                                <tr class="section-2">
+                                    <td class="data-type">UINT</td>
+                                    <td>0 to 65,535</td>
+                                    <td>≈ 65.5K</td>
+                                </tr>
+                                <tr class="section-2">
+                                    <td class="data-type">UDINT</td>
+                                    <td>0 to 4,294,967,295</td>
+                                    <td>≈ 4.29B</td>
+                                </tr>
+                                <tr class="section-2">
+                                    <td class="data-type">ULINT</td>
+                                    <td>0 to 18,446,744,073,709,551,615</td>
+                                    <td>≈ 1.84 × 10^19</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="footer">
+            <p>Sysmac Memory Data Types Reference | Industrial Automation</p>
+        </div>
+    </div>
+
+    <script>
+        // STRING Calculator functionality
+        document.addEventListener('DOMContentLoaded', function() {
+                         const stringLengthInput = document.getElementById('stringLength');
+             const totalBits = document.getElementById('totalBits');
+             const totalBytes = document.getElementById('totalBytes');
+             const totalWords = document.getElementById('totalWords');
+             const calcDetails = document.getElementById('stringCalc-content').querySelector('div');
+
+            function updateCalculations() {
+                const length = parseInt(stringLengthInput.value) || 0;
+                
+                // Calculate values using Omron STRING formula: n + 1 bytes
+                const totalBytesValue = length + 1;
+                const totalBitsValue = totalBytesValue * 8;
+                const totalWordsDecimal = totalBytesValue / 2;
+                const totalWordsValue = Math.ceil(totalWordsDecimal); // Round up for memory allocation
+                
+                // Format total words display like Excel formula
+                let totalWordsDisplay;
+                if (totalWordsDecimal % 1 === 0) {
+                    // If it's a whole number, just show the number
+                    totalWordsDisplay = totalWordsDecimal.toString();
+                } else {
+                    // If it's a decimal, show decimal form and then rounded up
+                    totalWordsDisplay = totalWordsDecimal.toFixed(2) + " >> " + totalWordsValue;
+                }
+                
+                // Update table values
+                totalBits.textContent = totalBitsValue;
+                totalBytes.textContent = totalBytesValue;
+                totalWords.textContent = totalWordsDisplay;
+                
+                // Update calculation details
+                calcDetails.innerHTML = `
+                    • String Length: ${length} characters<br>
+                    • Total Bytes: ${length} + 1 = ${totalBytesValue} bytes (extra byte for length)<br>
+                    • Total Bits: ${totalBytesValue} × 8 = ${totalBitsValue} bits<br>
+                    • Total Words: ${totalBytesValue} ÷ 2 = ${totalWordsDecimal.toFixed(2)} → ${totalWordsValue} words (rounded up)
+                `;
+            }
+
+            // Add event listeners
+            stringLengthInput.addEventListener('input', updateCalculations);
+            stringLengthInput.addEventListener('change', updateCalculations);
+            
+            // Initialize with default value
+            updateCalculations();
+        });
+
+        // Array Memory Calculator functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            const arrayTotalInput = document.getElementById('arrayTotal');
+            const dataTypeSelect = document.getElementById('dataTypeSelect');
+            const memoryUse = document.getElementById('memoryUse');
+            const arrayDescription = document.getElementById('arrayDescription');
+            const totalBytes = document.getElementById('totalBytes');
+                         const arrayCalcDetails = document.getElementById('arrayCalc-content').querySelector('#arrayCalcDetails');
+            const stringLengthRow = document.getElementById('stringLengthRow');
+            const stringLengthInput = document.getElementById('stringLengthInput');
+
+            function updateArrayCalculations() {
+                const total = parseInt(arrayTotalInput.value) || 0;
+                const selectedDataType = dataTypeSelect.options[dataTypeSelect.selectedIndex].text;
+                const dataTypeValue = dataTypeSelect.value;
+                
+                let totalBytesValue, memoryUseDecimal, memoryUseValue;
+                
+                // Handle STRING data type specially
+                if (dataTypeValue === 'string') {
+                    const stringLength = parseInt(stringLengthInput.value) || 0;
+                    // Use Omron STRING formula: n + 1 bytes per element
+                    const bytesPerString = stringLength + 1;
+                    totalBytesValue = total * bytesPerString;
+                    
+                    // Show string length input row
+                    stringLengthRow.style.display = 'table-row';
+                    
+                    // Update string length row values
+                    document.getElementById('stringBytes').textContent = bytesPerString;
+                    const stringWordsDecimal = bytesPerString / 2;
+                    const stringWordsValue = Math.ceil(stringWordsDecimal);
+                    let stringWordsDisplay;
+                    if (stringWordsDecimal % 1 === 0) {
+                        stringWordsDisplay = stringWordsDecimal.toString();
+                    } else {
+                        stringWordsDisplay = stringWordsDecimal.toFixed(2) + " >> " + stringWordsValue;
+                    }
+                    document.getElementById('stringWords').textContent = stringWordsDisplay;
+                    
+                    // Update array description
+                    arrayDescription.textContent = `ARRAY[0..${total - 1}] OF STRING[${stringLength}]`;
+                    
+                    // Update calculation details
+                    arrayCalcDetails.innerHTML = `
+                        • Array Total: ${total} elements<br>
+                        • Data Type: STRING[${stringLength}] (${bytesPerString} bytes per element)<br>
+                        • Total Bytes: ${total} × ${bytesPerString} = ${totalBytesValue} bytes<br>
+                        • Memory Use: ${totalBytesValue} ÷ 2 = ${(totalBytesValue / 2).toFixed(2)} → ${Math.ceil(totalBytesValue / 2)} words
+                    `;
+                } else {
+                    // Handle other data types normally
+                    const dataTypeByte = parseInt(dataTypeValue) || 0;
+                    totalBytesValue = total * dataTypeByte;
+                    
+                    // Hide string length input row
+                    stringLengthRow.style.display = 'none';
+                    
+                    // Update array description
+                    arrayDescription.textContent = `ARRAY[0..${total - 1}] OF ${selectedDataType}`;
+                    
+                    // Update calculation details
+                    arrayCalcDetails.innerHTML = `
+                        • Array Total: ${total} elements<br>
+                        • Data Type: ${selectedDataType} (${dataTypeByte} bytes per element)<br>
+                        • Total Bytes: ${total} × ${dataTypeByte} = ${totalBytesValue} bytes<br>
+                        • Memory Use: ${totalBytesValue} ÷ 2 = ${(totalBytesValue / 2).toFixed(2)} → ${Math.ceil(totalBytesValue / 2)} words
+                    `;
+                }
+                
+                // Calculate memory use using the Excel formula: (Array Total × Data Type Bytes) ÷ 2
+                memoryUseDecimal = totalBytesValue / 2;
+                memoryUseValue = Math.ceil(memoryUseDecimal); // Round up for memory allocation
+                
+                // Format memory use display like Excel formula
+                let memoryUseDisplay;
+                if (memoryUseDecimal % 1 === 0) {
+                    // If it's a whole number, just show the number
+                    memoryUseDisplay = memoryUseDecimal.toString();
+                } else {
+                    // If it's a decimal, show decimal form and then rounded up
+                    memoryUseDisplay = memoryUseDecimal.toFixed(2) + " >> " + memoryUseValue;
+                }
+                
+                // Update table values
+                totalBytes.textContent = totalBytesValue;
+                memoryUse.textContent = memoryUseDisplay;
+            }
+            
+            // Add event listeners
+            arrayTotalInput.addEventListener('input', updateArrayCalculations);
+            arrayTotalInput.addEventListener('change', updateArrayCalculations);
+            dataTypeSelect.addEventListener('change', updateArrayCalculations);
+            stringLengthInput.addEventListener('input', updateArrayCalculations);
+            stringLengthInput.addEventListener('change', updateArrayCalculations);
+            
+            // Initialize with default value
+            updateArrayCalculations();
+        });
+
+        // Collapsible functionality
+        function toggleSection(sectionId) {
+            const content = document.getElementById(`${sectionId}-content`);
+            const header = content.previousElementSibling;
+            const icon = header.querySelector('.toggle-icon');
+            
+            if (content.classList.contains('active')) {
+                content.classList.remove('active');
+                header.classList.remove('active');
+                icon.textContent = '▼';
+            } else {
+                content.classList.add('active');
+                header.classList.add('active');
+                icon.textContent = '▲';
+            }
+        }
+    </script>
+</body>
+</html>
