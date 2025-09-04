@@ -593,7 +593,7 @@
                                         <option value="string">STRING</option>
                                     </select>
                                 </td>
-                                <td class="byte-size" id="totalBytes">200</td>
+                                <td class="byte-size" id="arrayTotalBytes">200</td>
                                 <td class="word-size" id="memoryUse">100</td>
                             </tr>
                             
@@ -629,8 +629,7 @@
                             </tr>
                             
                             <tr class="section-2">
-                                <td colspan="2" class="data-type" id="arrayDescription" style="text-align: left; padding-left: 20px;">ARRAY[0..99] OF INT</td>
-                                <td colspan="2" class="data-type" style="text-align: center; font-weight: 600;">Memory Use: 100 words</td>
+                                <td colspan="4" class="data-type" id="arrayDescription" style="text-align: left; padding-left: 20px;">ARRAY[0..99] OF INT</td>
                             </tr>
                         </tbody>
                     </table>
@@ -800,7 +799,7 @@
             const dataTypeSelect = document.getElementById('dataTypeSelect');
             const memoryUse = document.getElementById('memoryUse');
             const arrayDescription = document.getElementById('arrayDescription');
-            const totalBytes = document.getElementById('totalBytes');
+            const totalBytes = document.getElementById('arrayTotalBytes');
                          const arrayCalcDetails = document.getElementById('arrayCalc-content').querySelector('#arrayCalcDetails');
             const stringLengthRow = document.getElementById('stringLengthRow');
             const stringLengthInput = document.getElementById('stringLengthInput');
