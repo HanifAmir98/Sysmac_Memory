@@ -590,6 +590,7 @@
                                         <option value="8">ULINT</option>
                                         <option value="4">REAL</option>
                                         <option value="8">LREAL</option>
+                                        <option value="bool">BOOL</option>
                                         <option value="string">STRING</option>
                                     </select>
                                 </td>
@@ -811,8 +812,28 @@
                 
                 let totalBytesValue, memoryUseDecimal, memoryUseValue;
                 
+                // Handle BOOL data type specially (8 BOOLs = 1 byte)
+                if (dataTypeValue === 'bool') {
+                    // BOOL calculation: 8 BOOLs = 1 byte, so we need to round up
+                    const bytesPerBool = Math.ceil(total / 8);
+                    totalBytesValue = bytesPerBool;
+                    
+                    // Hide string length input row
+                    stringLengthRow.style.display = 'none';
+                    
+                    // Update array description
+                    arrayDescription.textContent = `ARRAY[0..${total - 1}] OF BOOL`;
+                    
+                    // Update calculation details
+                    arrayCalcDetails.innerHTML = `
+                        • Array Total: ${total} BOOL elements<br>
+                        • Data Type: BOOL (8 BOOLs = 1 byte)<br>
+                        • Total Bytes: ${total} ÷ 8 = ${(total / 8).toFixed(2)} → ${bytesPerBool} bytes (rounded up)<br>
+                        • Memory Use: ${bytesPerBool} ÷ 2 = ${(bytesPerBool / 2).toFixed(2)} → ${Math.ceil(bytesPerBool / 2)} words
+                    `;
+                }
                 // Handle STRING data type specially
-                if (dataTypeValue === 'string') {
+                else if (dataTypeValue === 'string') {
                     const stringLength = parseInt(stringLengthInput.value) || 0;
                     // Use Omron STRING formula: n + 1 bytes per element
                     const bytesPerString = stringLength + 1;
